@@ -6,10 +6,10 @@
 Modul bietet die Möglichkeit Log Daten als Datei abzulegen.
 + Zeitstempel + Log Nachricht
 
-| Method   | parameter     | type | default  |
-|----------|---------------|------|----------|
-| __init__ | `destination` | "str" | "log.txt" |
-| log      | `msg`         | "str" | "blanc"  |
+| Method   | parameter                | type            | default            |
+|----------|--------------------------|-----------------|--------------------|
+| __init__ | `destination`<br/> ´new´ | "str"<br/> bool | "log.txt"<br/>True |
+| log      | `msg`                    | "str"           | "blanc"            |
 
 
 ## Modul : user
