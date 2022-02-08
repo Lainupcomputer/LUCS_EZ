@@ -1,6 +1,6 @@
 ########################################################################################################################
 #                                                   Lainupcomputer                                                     #
-#                                                   ez_log v1.0                                                        #
+#                                                   ez_log v1.0.1                                                      #
 ########################################################################################################################
 import datetime
 
@@ -22,11 +22,15 @@ class log:
             except FileNotFoundError:
                 self.write_init("static")
 
-    def log(self, msg="blanc"):
-        logstr = f"{datetime.datetime.now()} : {msg}\n"
-        with open(self.filepath, "r") as f:
-            lines = f.readlines()
-            lines.append(logstr)
+    def internal_read(self):
+        with open(self.filepath, "r")as f:
+            return f.readlines()
+
+    def internal_write(self, lines):
         with open(self.filepath, "w") as wf:
             wf.writelines(lines)
 
+    def log(self, msg="blanc"):
+        logstr = f"{datetime.datetime.now()} : {msg}\n"
+        lines = self.internal_read()
+        self.internal_write(lines.append(logstr))
