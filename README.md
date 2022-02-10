@@ -20,9 +20,16 @@ Modul bietet die Möglichkeit einer Benutzerverwaltung.
 + Verschlüsselung 
 + Daten Felder hinzufügen
 
-| Method   | parameter                | type             | default               |
-|----------|--------------------------|------------------|-----------------------|
+|           | parameter                | type             | default               |
+|-----------|--------------------------|------------------|-----------------------|
 | __init__ | `destination`<br/> `debug` | "str" <br/> bool | "log.txt" <br/> False |
+
+| Method                   | parameter                        | type            | default / usage                                                                    |
+|--------------------------|----------------------------------|-----------------|------------------------------------------------------------------------------------|
+| __check_if_user_exists__ | `user_name`                      | "str"           | return user ID                                                                     |
+| __create_user__          | `user_name`<br/> `user_password` | "str"<br/>"str" | create User <br/> return True on creation                                          |
+| __delete_user__          | `user_name`<br/> `user_password` | "str"<br/>"str" | delete User <br/> return:<br/> 200=OK,<br/> 401=password_wrong,<br/> 404=not found |
+
 
 
 ## Modul : config
