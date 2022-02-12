@@ -92,19 +92,16 @@ class ez_user:
             send_debug(" ?", f"Cant get '{obj}' User not found", self.debug)
             return False
 
-    def add_field(self, user_name="", field="", data="", single=True):
+    def add_field(self, user_name="", field="", data=""):
         check = self.check_if_user_exists(user_name)  # Check for User returns ID
         if check:
             lines = self.internal_read()  # read file lines
             line = lines[check]
             user_line = line.split("\n")  # remove newline
-            if single:  # add 1
-                user_str = f"{user_line[0]};{field}={data}\n"
-                lines[check] = user_str
-                self.internal_write(lines)
-                send_debug("OK", f"added {field}={data} to ID:{check}", self.debug)
-            else:  # add multiple
-                pass
+            user_str = f"{user_line[0]};{field}={data}\n"
+            lines[check] = user_str
+            self.internal_write(lines)
+            send_debug("OK", f"added {field}={data} to ID:{check}", self.debug)
 
         else:
             send_debug(" ?", "User not found", self.debug)
