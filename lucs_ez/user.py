@@ -105,3 +105,25 @@ class ez_user:
 
         else:
             send_debug(" ?", "User not found", self.debug)
+
+    def get_all_user_names(self):
+        user_list = []
+        lines = self.internal_read()  # read all data
+        print(len(lines))
+        print(lines)
+
+        user_data = lines[1].split(";")  # split file to userid ! lines[loop all in range from len list]
+        print(user_data)
+        for data in user_data:  # get value stack from user
+            val = data.split("=")  # split value stack to identify search
+            print(val)
+            if val[0] == "username":  # val0 datastack identify !!! val1 datastack value
+                print(val[1])
+                user_list.append(val[1])  # append username to userlist
+
+                break
+
+
+
+
+
