@@ -110,11 +110,12 @@ class ez_user:
         user_list = []
         lines = self.internal_read()            # read all data
         for user in range(len(lines)):          # loop over lines
-            user_data = lines[user].split(";")  # split file to userid ! lines[loop all in range from len list]
+            user_data = lines[user].split(";")  # split file to user by id !
             for data in user_data:              # get value stack from user
                 val = data.split("=")           # split value stack to identify search
                 if val[0] == "username":        # val0 datastack identify !!! val1 datastack value
                     user_list.append(val[1])    # append username to user_list
+        send_debug("OK", f"User: {user_list}", self.debug)
         return user_list
 
 
