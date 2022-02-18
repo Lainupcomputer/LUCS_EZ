@@ -92,19 +92,32 @@ class ez_user:
             send_debug(" ?", f"Cant get '{obj}' User not found", self.debug)
             return False
 
-    def add_field(self, user_name="", field="", data="", single=True):
+    def add_field(self, user_name="", field="", data=""):
         check = self.check_if_user_exists(user_name)  # Check for User returns ID
         if check:
             lines = self.internal_read()  # read file lines
             line = lines[check]
             user_line = line.split("\n")  # remove newline
-            if single:  # add 1
-                user_str = f"{user_line[0]};{field}={data}\n"
-                lines[check] = user_str
-                self.internal_write(lines)
-                send_debug("OK", f"added {field}={data} to ID:{check}", self.debug)
-            else:  # add multiple
-                pass
+            user_str = f"{user_line[0]};{field}={data}\n"
+            lines[check] = user_str
+            self.internal_write(lines)
+            send_debug("OK", f"added {field}={data} to ID:{check}", self.debug)
 
         else:
             send_debug(" ?", "User not found", self.debug)
+
+    def get_all_user_names(self):
+        user_list = []
+        lines = self.internal_read()            # read all data
+        for user in range(len(lines)):          # loop over lines
+            user_data = lines[user].split(";")  # split file to userid ! lines[loop all in range from len list]
+            for data in user_data:              # get value stack from user
+                val = data.split("=")           # split value stack to identify search
+                if val[0] == "username":        # val0 datastack identify !!! val1 datastack value
+                    user_list.append(val[1])    # append username to user_list
+        return user_list
+
+
+
+
+
