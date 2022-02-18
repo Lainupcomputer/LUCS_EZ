@@ -35,7 +35,7 @@ class ez_user:
         with open(self.file_path, "w") as f:
             f.writelines(lines)
 
-    def check_if_user_exists(self, user_name):  # return user ID / line id
+    def get_user_id(self, user_name):  # return user ID / line id
         file_lines = self.internal_read()
         w = -1
         for line in file_lines:
@@ -44,7 +44,7 @@ class ez_user:
                 return w
 
     def create_user(self, user_name="default_user", user_password="default"):
-        check = self.check_if_user_exists(user_name)  # Check for User returns ID
+        check = self.get_user_id(user_name)  # Check for User returns ID
         if check:
             send_debug(" !", f"User exists. ID:{check}", self.debug)  # abort user there
             return False
@@ -57,7 +57,7 @@ class ez_user:
             return True
 
     def delete_user(self, user_name="default_user", user_password="default"):
-        check = self.check_if_user_exists(user_name)  # Check for User returns ID
+        check = self.get_user_id(user_name)  # Check for User returns ID
         if check:
             if check_password(user_password, self.get(user_name, "password")):
                 file_lines = self.internal_read()
@@ -73,7 +73,7 @@ class ez_user:
             return 404
 
     def get(self, user_name="", obj=""):
-        check = self.check_if_user_exists(user_name)  # Check for User returns ID
+        check = self.get_user_id(user_name)  # Check for User returns ID
         if check:  # if userid != none
             file_lines = self.internal_read()
             user_data = file_lines[check].split(";")  # find user line
@@ -93,7 +93,7 @@ class ez_user:
             return False
 
     def add_field(self, user_name="", field="", data=""):
-        check = self.check_if_user_exists(user_name)  # Check for User returns ID
+        check = self.get_user_id(user_name)  # Check for User returns ID
         if check:
             lines = self.internal_read()  # read file lines
             line = lines[check]
