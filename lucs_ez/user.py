@@ -43,20 +43,32 @@ class ez_user:
             if user_name in line:
                 return w
 
-    def create_user(self, user_name="default_user", user_password="default"):
-        check = self.get_user_id(user_name)  # Check for User returns ID
-        if check:
-            send_debug(" !", f"User exists. ID:{check}", self.debug)  # abort user there
-            return False
-        else:
+    def get_all_user_names(self):
+        user_list = []
+        lines = self.internal_read()            # read all data
+        for user in range(len(lines)):          # loop over lines
+            user_data = lines[user].split(";")  # split file to user by id !
+            for data in user_data:              # get value stack from user
+                val = data.split("=")           # split value stack to identify search
+                if val[0] == "username":        # val0 datastack identify !!! val1 datastack value
+                    user_list.append(val[1])    # append username to user_list
+        send_debug("OK", f"User: {user_list}", self.debug)
+        return user_list
+
+    def create_user(self, user_name, user_password):            # Create user if not exits
+        user_id = self.get_user_id(user_name)                   # Check for User returns ID // Check if user there
+        if user_id is None:                                     # Crate user
             user_line = f"username={user_name};password={gen_password_hash(user_password)}\n"  # Password Hashing
             file_lines = self.internal_read()
             file_lines.append(user_line)
             self.internal_write(file_lines)
             send_debug("OK", f'User "{user_name}" created', self.debug)  # user created
             return True
+        else:                                                   # User is there
+            send_debug(" !", f"User exists. ID:{user_id}", self.debug)
+            return False
 
-    def delete_user(self, user_name="default_user", user_password="default"):
+    def delete_user(self, user_name, user_password):
         check = self.get_user_id(user_name)  # Check for User returns ID
         if check:
             if check_password(user_password, self.get(user_name, "password")):
@@ -72,52 +84,46 @@ class ez_user:
             send_debug(" ?", "User not found", self.debug)
             return 404
 
-    def get(self, user_name="", obj=""):
-        check = self.get_user_id(user_name)  # Check for User returns ID
-        if check:  # if userid != none
+    def get(self, user_name, obj):
+        id = self.get_user_id(user_name)  # Check for User returns ID
+        if id:  # if userid != none
             file_lines = self.internal_read()
-            user_data = file_lines[check].split(";")  # find user line
-            id = -1  # id counter
-            for data in user_data:
-                id += 1
-                v_data = data.split("=")  # find object
-                if obj in v_data:
-                    ext = v_data[id].split("\n")
-                    send_debug("OK", f"got {obj} for ID:{check} OBJECT: {ext[0]}", self.debug)
-                    return ext[0]  # Return Value from file
-
-            send_debug(" ?", f"Cant get '{obj}' for ID:{check}", self.debug)
-            return False
+            user_data = file_lines[id].split(";")  # find user line
+            for field in user_data:
+                val = field.split("=")
+                if obj in val[0]:
+                    rm_nl = val[1].split("\n")
+                    return rm_nl[0]
         else:
             send_debug(" ?", f"Cant get '{obj}' User not found", self.debug)
             return False
 
+
     def add_field(self, user_name="", field="", data=""):
         check = self.get_user_id(user_name)  # Check for User returns ID
         if check:
-            lines = self.internal_read()  # read file lines
-            line = lines[check]
-            user_line = line.split("\n")  # remove newline
-            user_str = f"{user_line[0]};{field}={data}\n"
-            lines[check] = user_str
-            self.internal_write(lines)
-            send_debug("OK", f"added {field}={data} to ID:{check}", self.debug)
+            if not self.get(user_name, field):
+                lines = self.internal_read()  # read file lines
+                line = lines[check]
+                user_line = line.split("\n")  # remove newline
+                user_str = f"{user_line[0]};{field}={data}\n"
+                lines[check] = user_str
+                self.internal_write(lines)
+                send_debug("OK", f"added {field}={data} to ID:{check}", self.debug)
+            else:
+                send_debug(" !", "Data found abort", self.debug)
 
         else:
             send_debug(" ?", "User not found", self.debug)
 
-    def get_all_user_names(self):
-        user_list = []
-        lines = self.internal_read()            # read all data
-        for user in range(len(lines)):          # loop over lines
-            user_data = lines[user].split(";")  # split file to user by id !
-            for data in user_data:              # get value stack from user
-                val = data.split("=")           # split value stack to identify search
-                if val[0] == "username":        # val0 datastack identify !!! val1 datastack value
-                    user_list.append(val[1])    # append username to user_list
-        send_debug("OK", f"User: {user_list}", self.debug)
-        return user_list
 
+    def remove_field(self, user_name, password, field):
+        user_id = self.get_user_id(user_name)
+
+        if check_password(password, self.get(user_name, "password")):
+            print("pass ok")
+        else:
+            send_debug(" !", "Password wrong", self.debug)
 
 
 
