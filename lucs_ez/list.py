@@ -1,4 +1,4 @@
-from utils import send_debug
+from lucs_ez.utils import send_debug
 version = "0.1"
 
 
@@ -28,7 +28,26 @@ class ez_list:
     def internal_write(self, lines):  # Save Lines to File
         with open(self.file_path, "w") as f:
             f.writelines(lines)
-    def create(self):
+
+    def create(self, user, data):
+        lines = self.internal_read()
+        print(lines)
+        c = -1
+        for line in lines:
+            c += 1
+            if user in line:
+                user_line = lines[c].split(">")
+                print(user_line)
+                user_split = user_line[1].split("\n")
+                print(user_split)
+
+            else:
+                print("not found")
+                user_line = f"{user}>{data}\n"
+                lines.append(user_line)
+                self.internal_write(lines)
+
+
         ...
     def delete(self):
         ...
