@@ -7,6 +7,7 @@ import base64
 import bcrypt
 import hashlib
 from colorama import Fore
+import datetime
 version = "v1.0"
 
 
@@ -37,4 +38,8 @@ def send_debug(code="", msg="", enable=True):  # Basic Debug Output
             print(Fore.YELLOW + f"{code} : {msg}")
         else:
             print(f"{code} : {msg}")
+
+
+def timestamp_now():
+    return datetime.datetime.now()
 

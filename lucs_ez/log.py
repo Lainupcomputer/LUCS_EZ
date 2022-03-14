@@ -2,14 +2,14 @@
 #                                                   Lainupcomputer                                                     #
 #                                                   ez_log v1.0.2                                                      #
 ########################################################################################################################
-import datetime
+from lucs_ez import utils
 
 
 class log:
 
     def write_init(self, opt):
         with open(self.filepath, "w") as f:
-            f.write(f"{datetime.datetime.now()} : logfile ({opt}) <\n")
+            f.write(f">{utils.timestamp_now()} : logfile ({opt}) <\n")
 
     def __init__(self, destination="log.txt", new=True):
         self.filepath = destination
