@@ -6,6 +6,7 @@
 import base64
 import bcrypt
 import hashlib
+from colorama import Fore
 version = "v1.0"
 
 
@@ -26,7 +27,14 @@ def check_password(passwd: str, hashed: str):
         return False
 
 
-def send_debug(code="", msg="", enable=True):
+def send_debug(code="", msg="", enable=True):  # Basic Debug Output
     if enable:
-        print(f"!{code} : {msg}")
+        # check for color codes
+        if "?" in code:  # error = RED
+            print(Fore.RED + f"{code} : {msg}")
+
+        if "!" in code:  # Warning
+            print(Fore.YELLOW + f"{code} : {msg}")
+        else:
+            print(f"{code} : {msg}")
 
