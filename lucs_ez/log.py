@@ -30,7 +30,7 @@ class log:
         with open(self.filepath, "w") as wf:
             wf.writelines(lines)
 
-    def log(self, msg="blanc"):
+    def log(self, msg="no message provided"):
         logstr = f"{datetime.datetime.now()} : {msg}\n"
         lines = self.internal_read()
         lines.append(logstr)
