@@ -2,12 +2,12 @@
 #
 # cfg = config(file_path="test.json", debug=True)  # Setup instance
 #
-from lucs_ez.user import *  # Import User Module
+#from lucs_ez.user import *  # Import User Module
 
-user = ez_user(debug=True)
+#user = ez_user(debug=True)
 #print(user.create_user("lain3", "cool"))
 #print(user.get("lain3", "cat"))
-user.remove_field("lain", "cool", "cat")
+#user.remove_field("lain", "cool", "cat")
 #user.add_field("lain3", "cat", "data")
 # print(user.get_all_user_names())
 
@@ -45,3 +45,7 @@ user.remove_field("lain", "cool", "cat")
 #     print(file_lines)
 #
 #     print(user_line)
+from lucs_ez.list import *
+
+list = ez_list()
+list.create(user="Test", data="testdata")
