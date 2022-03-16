@@ -49,3 +49,14 @@ from lucs_ez.list import *
 
 list = ez_list()
 list.create(user="Test", data="testdata")
+
+from lucs_ez.user import *
+
+user = ez_user()
+username = "lain"
+password = "password123"
+user.create_user(username, password)
+user.add_field(username, "email", "lainup@gmx.de")
+user.add_field(username, "city", "Thale")
+user.add_field(username, "email", "lainup@gmx.de")
+user.add_field(username, "about", "bin cool ")
